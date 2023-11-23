@@ -1,0 +1,2519 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/22/2023 6:35:43 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-LKBM045"
+  DTS:CreatorName="DESKTOP-LKBM045\Admin"
+  DTS:DTSID="{9FA9AEDA-C7C0-48BA-9F07-DD2A9AADBAFC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5314.0"
+  DTS:LocaleID="16393"
+  DTS:ObjectName="multisourcedataenrichment"
+  DTS:PackageType="5"
+  DTS:VersionBuild="40"
+  DTS:VersionGUID="{7ED3E576-1402-4349-888F-C4581ADBDCE1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Cache Connection Manager]"
+      DTS:CreationName="CACHE"
+      DTS:Description="cache"
+      DTS:DTSID="{8B374CFC-4BDB-44C1-9C93-28FBE1A348E3}"
+      DTS:ObjectName="Cache Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager>
+          <DTS:CacheColumns>
+            <DTS:CacheColumn
+              DTS:DataType="20"
+              DTS:IndexPosition="1"
+              DTS:ObjectName="customerid"
+              DTS:DTSID="{2B645FE9-B34C-4D10-BCC3-86193D1FC01C}"
+              DTS:CreationName="" />
+          </DTS:CacheColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[project3]"
+      DTS:CreationName="ODBC"
+      DTS:DTSID="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+      DTS:ObjectName="project3">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Dsn=project3;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\CustomerTable"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{20E6601B-CC99-4B62-B732-23292AA4E992}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="CustomerTable"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\CustomerTable\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="country"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\CustomerTable\Conditional Split.Outputs[USA]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="USA"
+                  synchronousInputId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]} == "USA"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">country == "USA"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\CustomerTable\Conditional Split.Outputs[Rest]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Rest"
+                  synchronousInputId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]} != "USA"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">country != "USA"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\CustomerTable\Create Column FullName"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Create Column FullName"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input].Columns[firstname]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="firstname"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[firstname]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input].Columns[lastname]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="lastname"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[lastname]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[FullName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1001"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[FullName]"
+                      name="FullName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[firstname]} + " " + #{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[lastname]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">firstname + " " + lastname</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[customername]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="1001"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[customername]"
+                      name="customername"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[firstname]} + " " + #{Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[lastname]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">firstname + " " + lastname</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[processeddate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[processeddate]"
+                      name="processeddate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\CustomerTable\ODBC Source"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="ODBC Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">customertable</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\CustomerTable\ODBC Source.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[customerid]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[customerid]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[customerid]"
+                      name="customerid" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[firstname]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[firstname]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[firstname]"
+                      name="firstname" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[lastname]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[lastname]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[lastname]"
+                      name="lastname" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[email]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[email]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[email]"
+                      name="email" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[country]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]"
+                      name="country" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[customerid]"
+                      dataType="i4"
+                      name="customerid" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[firstname]"
+                      dataType="wstr"
+                      length="500"
+                      name="firstname" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[lastname]"
+                      dataType="wstr"
+                      length="500"
+                      name="lastname" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[email]"
+                      dataType="wstr"
+                      length="500"
+                      name="email" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="500"
+                      name="country" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[customerid]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[customerid]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[customerid]"
+                      name="customerid" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[firstname]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[firstname]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[firstname]"
+                      name="firstname" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[lastname]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[lastname]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[lastname]"
+                      name="lastname" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[email]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[email]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[email]"
+                      name="email" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[country]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[country]"
+                      length="500"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[country]"
+                      name="country" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\CustomerTable\processeddata"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Destination"
+              name="processeddata"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">processeddata</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of rows inserted under the same transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
+                  expressionType="Notify"
+                  name="InsertMethod">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\CustomerTable\processeddata.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ODBC Destination Input"
+                  truncationRowDisposition="FailComponent">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[customerid]"
+                      cachedDataType="i4"
+                      cachedName="customerid"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[customerid]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[email]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="email"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[Email]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[email]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[FullName]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="FullName"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[FullName]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[FullName]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[customername]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="customername"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[CustomerName]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[customername]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].Columns[processeddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="processeddate"
+                      externalMetadataColumnId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[ProcessedDate]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[processeddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[ProcessedID]"
+                      dataType="i4"
+                      name="ProcessedID" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[CustomerName]"
+                      dataType="wstr"
+                      length="100"
+                      name="CustomerName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="100"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[SaleAmount]"
+                      dataType="numeric"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[SaleDate]"
+                      dataType="dbDate"
+                      name="SaleDate" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[ProcessedDate]"
+                      dataType="dbTimeStamp"
+                      name="ProcessedDate" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="200"
+                      name="FullName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[SalesAmountUSD]"
+                      dataType="numeric"
+                      name="SalesAmountUSD"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input].ExternalColumns[EmailDomain]"
+                      dataType="wstr"
+                      length="50"
+                      name="EmailDomain" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\CustomerTable\processeddata.Outputs[ODBC Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ODBC Destination Error Output"
+                  synchronousInputId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\processeddata.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\processeddata.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\CustomerTable\processeddata.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\processeddata.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\CustomerTable\processeddatausa"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Destination"
+              name="processeddatausa"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">processeddatausa</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of rows inserted under the same transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
+                  expressionType="Notify"
+                  name="InsertMethod">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\CustomerTable\processeddatausa.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ODBC Destination Input"
+                  truncationRowDisposition="FailComponent">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[customerid]"
+                      cachedDataType="i4"
+                      cachedName="customerid"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[customerid]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[email]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="email"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[Email]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[email]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[customername]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="customername"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[CustomerName]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[customername]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[FullName]"
+                      cachedDataType="wstr"
+                      cachedLength="1001"
+                      cachedName="FullName"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[FullName]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[FullName]" />
+                    <inputColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].Columns[processeddate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="processeddate"
+                      externalMetadataColumnId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[ProcessedDate]"
+                      lineageId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output].Columns[processeddate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[ProcessedID]"
+                      dataType="i4"
+                      name="ProcessedID" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[CustomerName]"
+                      dataType="wstr"
+                      length="100"
+                      name="CustomerName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="100"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[SaleAmount]"
+                      dataType="numeric"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[SaleDate]"
+                      dataType="dbDate"
+                      name="SaleDate" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[ProcessedDate]"
+                      dataType="dbTimeStamp"
+                      name="ProcessedDate" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="200"
+                      name="FullName" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[SalesAmountUSD]"
+                      dataType="numeric"
+                      name="SalesAmountUSD"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input].ExternalColumns[EmailDomain]"
+                      dataType="wstr"
+                      length="50"
+                      name="EmailDomain" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\CustomerTable\processeddatausa.Outputs[ODBC Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ODBC Destination Error Output"
+                  synchronousInputId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\CustomerTable\processeddatausa.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\processeddatausa.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\CustomerTable\processeddatausa.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\CustomerTable\processeddatausa.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\CustomerTable.Paths[Derived Column Output]"
+              endId="Package\CustomerTable\Conditional Split.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\CustomerTable\Create Column FullName.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\CustomerTable.Paths[ODBC Source Output]"
+              endId="Package\CustomerTable\Create Column FullName.Inputs[Derived Column Input]"
+              name="ODBC Source Output"
+              startId="Package\CustomerTable\ODBC Source.Outputs[ODBC Source Output]" />
+            <path
+              refId="Package\CustomerTable.Paths[Rest]"
+              endId="Package\CustomerTable\processeddata.Inputs[ODBC Destination Input]"
+              name="Rest"
+              startId="Package\CustomerTable\Conditional Split.Outputs[Rest]" />
+            <path
+              refId="Package\CustomerTable.Paths[USA]"
+              endId="Package\CustomerTable\processeddatausa.Inputs[ODBC Destination Input]"
+              name="USA"
+              startId="Package\CustomerTable\Conditional Split.Outputs[USA]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ExchangeRates"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5237670B-9721-4021-AF0D-BF3885DB8E8B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ExchangeRates"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ExchangeRates\ODBC Source"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="ODBC Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">exchangerates</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ExchangeRates\ODBC Source.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[RateID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateID]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[RateID]"
+                      name="RateID" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyFrom]"
+                      length="3"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyTo]"
+                      length="3"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[CurrencyTo]"
+                      name="CurrencyTo" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[ExchangeRate]"
+                      dataType="numeric"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[ExchangeRate]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[ExchangeRate]"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[RateDate]"
+                      dataType="dbDate"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateDate]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].Columns[RateDate]"
+                      name="RateDate" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateID]"
+                      dataType="i4"
+                      name="RateID" />
+                    <externalMetadataColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyFrom]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyFrom" />
+                    <externalMetadataColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyTo]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyTo" />
+                    <externalMetadataColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateDate]"
+                      dataType="dbDate"
+                      name="RateDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[RateID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateID]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[RateID]"
+                      name="RateID" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[CurrencyFrom]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyFrom]"
+                      length="3"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[CurrencyFrom]"
+                      name="CurrencyFrom" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[CurrencyTo]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[CurrencyTo]"
+                      length="3"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[CurrencyTo]"
+                      name="CurrencyTo" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ExchangeRate]"
+                      dataType="numeric"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[ExchangeRate]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ExchangeRate]"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[RateDate]"
+                      dataType="dbDate"
+                      externalMetadataColumnId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Output].ExternalColumns[RateDate]"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[RateDate]"
+                      name="RateDate" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ExchangeRates\ODBC Source.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ProductSales"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{39C766E5-3F2A-4CF3-A94D-4A39F43D33FF}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ProductSales"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ProductSales\ODBC Destination"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="ODBC Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Destination"
+              name="ODBC Destination"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">processeddata</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of rows inserted under the same transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for inserting data. Possible values are 'Batch' or 'Row by row'."
+                  expressionType="Notify"
+                  name="InsertMethod">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ProductSales\ODBC Destination.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ODBC Destination Input"
+                  truncationRowDisposition="FailComponent">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].Columns[CustomerID]"
+                      cachedDataType="i4"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].Columns[ProductName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ProductName"
+                      externalMetadataColumnId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[ProductName]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[ProductName]" />
+                    <inputColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].Columns[SaleAmount]"
+                      cachedDataType="numeric"
+                      cachedName="SaleAmount"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[SaleAmount]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleAmount]" />
+                    <inputColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].Columns[SaleDate]"
+                      cachedDataType="dbDate"
+                      cachedName="SaleDate"
+                      externalMetadataColumnId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[SaleDate]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[ProcessedID]"
+                      dataType="i4"
+                      name="ProcessedID" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[CustomerName]"
+                      dataType="wstr"
+                      length="100"
+                      name="CustomerName" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="100"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[SaleAmount]"
+                      dataType="numeric"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[SaleDate]"
+                      dataType="dbDate"
+                      name="SaleDate" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[ExchangeRate]"
+                      dataType="numeric"
+                      name="ExchangeRate"
+                      precision="18"
+                      scale="4" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[ProcessedDate]"
+                      dataType="dbTimeStamp"
+                      name="ProcessedDate" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="200"
+                      name="FullName" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[SalesAmountUSD]"
+                      dataType="numeric"
+                      name="SalesAmountUSD"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input].ExternalColumns[EmailDomain]"
+                      dataType="wstr"
+                      length="50"
+                      name="EmailDomain" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ProductSales\ODBC Destination.Outputs[ODBC Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ODBC Destination Error Output"
+                  synchronousInputId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ProductSales\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ProductSales\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ProductSales\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ProductSales\ODBC Destination.Outputs[ODBC Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ProductSales\ProductSales Data"
+              componentClassID="Microsoft.SSISODBCSrc"
+              contactInfo="ODBC Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="ODBC Source"
+              name="ProductSales Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of the table to be fetched."
+                  expressionType="Notify"
+                  name="TableName">productsales</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows fetched per batch."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines the chunk size allocation for LOB columns"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)"
+                  expressionType="Notify"
+                  name="ExposeCharColumnsAsUnicode">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds to wait for an SQL statement to execute before returning to the application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The code page to use when code page information is unavailable from the data source."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="The method used for fetching data."
+                  expressionType="Notify"
+                  name="FetchMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="The ODBC C data type for binding numeric data."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The mode used to access the database."
+                  expressionType="Notify"
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ProductSales\ProductSales Data.Connections[ODBCConnection]"
+                  connectionManagerID="Package.ConnectionManagers[project3]"
+                  connectionManagerRefId="Package.ConnectionManagers[project3]"
+                  description="The ODBC runtime connection used to access the database."
+                  name="ODBCConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output]"
+                  errorRowDisposition="FailComponent"
+                  name="ODBC Source Output"
+                  truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleID]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleID]"
+                      name="SaleID" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[CustomerID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[CustomerID]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[ProductName]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[ProductName]"
+                      length="100"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[ProductName]"
+                      name="ProductName" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleAmount]"
+                      dataType="numeric"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleAmount]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleAmount]"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleDate]"
+                      dataType="dbDate"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleDate]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].Columns[SaleDate]"
+                      name="SaleDate" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleID]"
+                      dataType="i4"
+                      name="SaleID" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="100"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleAmount]"
+                      dataType="numeric"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleDate]"
+                      dataType="dbDate"
+                      name="SaleDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output]"
+                  isErrorOut="true"
+                  name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleID]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleID]"
+                      name="SaleID" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[CustomerID]"
+                      dataType="i4"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[CustomerID]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ProductName]"
+                      dataType="wstr"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[ProductName]"
+                      length="100"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ProductName]"
+                      name="ProductName" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleAmount]"
+                      dataType="numeric"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleAmount]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleAmount]"
+                      name="SaleAmount"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleDate]"
+                      dataType="dbDate"
+                      externalMetadataColumnId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output].ExternalColumns[SaleDate]"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[SaleDate]"
+                      name="SaleDate" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\ProductSales.Paths[ODBC Source Output]"
+              endId="Package\ProductSales\ODBC Destination.Inputs[ODBC Destination Input]"
+              name="ODBC Source Output"
+              startId="Package\ProductSales\ProductSales Data.Outputs[ODBC Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{4F1C4EBD-D53A-413D-BBA8-AEEADA20A8C4}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Update Currency column in destination table for other countries"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{d7ecc691-877d-418d-8e9c-82dba2d5d2f0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Currency column in destination table for other countries"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="UPDATE processeddata&#xA;SET currency = &#xA;    CASE&#xA;        WHEN Country = 'Canada' THEN 'CAD'&#xA;        WHEN Country = 'UK' THEN 'GBP'&#xA;        WHEN Country = 'Australia' THEN 'AUD'&#xA;        WHEN Country = 'Germany' THEN 'EUR'&#xA;        WHEN Country = 'Mexico' THEN 'MXN'&#xA;        WHEN Country = 'South Korea' THEN 'KRW'&#xA;        ELSE 'Unknown'&#xA;    END;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Update Currency column in destination table for USA"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{DE8C3545-0F84-40C1-AEBD-C7AAE4F92D5F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Currency column in destination table for USA"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="update processeddatausa&#xA;set currency = 'USD';" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Update ProductSales Data in destination table for other countries"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5402C782-DE8B-405C-8550-4E3C5DCF214C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update ProductSales Data in destination table for other countries"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="UPDATE ProcessedData AS f&#xA;SET &#xA;    f.ProductName = (&#xA;        SELECT p.ProductName&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    ),&#xA;    f.SaleAmount = (&#xA;        SELECT p.SaleAmount&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    ),&#xA;    f.SaleDate = (&#xA;        SELECT p.SaleDate&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Update ProductSales Data in destination table for USA"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0AE13A58-954B-4801-8E0D-680B360A3312}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update ProductSales Data in destination table for USA"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="UPDATE ProcessedDatausa AS f&#xA;SET &#xA;    f.ProductName = (&#xA;        SELECT p.ProductName&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    ),&#xA;    f.SaleAmount = (&#xA;        SELECT p.SaleAmount&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    ),&#xA;    f.SaleDate = (&#xA;        SELECT p.SaleDate&#xA;        FROM ProductSales p&#xA;        WHERE p.CustomerID = f.CustomerID&#xA;        LIMIT 1&#xA;    );" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{EE1692C9-0CB0-4A23-ABC9-925EFC79A974}"
+          DTS:From="Package\Sequence Container\Update ProductSales Data in destination table for USA"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Update ProductSales Data in destination table for other countries" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{5E217AD6-4033-40B7-BA53-C577F6006081}"
+          DTS:From="Package\Sequence Container\Update Currency column in destination table for USA"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Sequence Container\Update Currency column in destination table for other countries" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container 1"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F1C1AE17-46D0-4FA8-A630-745C259ECE81}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container 1">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container 1\Update Sales Amount for other Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{58e16065-3748-4ecf-bf5e-fc1c252e1b5c}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Sales Amount for other Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="update processeddata&#xA;set salesamountusd = saleamount * exchangerate ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container 1\Update Sales Amount for USA Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5E4BB118-F482-441D-B905-D26571EDE60E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Sales Amount for USA Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+              SQLTask:SqlStatementSource="update processeddatausa&#xA;set salesamountusd = saleamount * exchangerate ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Table ProcessedData"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{03B65201-117C-4D30-B131-0C695DFEC764}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Table ProcessedData"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+          SQLTask:SqlStatementSource="Truncate Table project3.processeddata" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Table ProcessedDatausa"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3B1D89C9-2FE5-40F3-93AD-3ABA7688D068}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Table ProcessedDatausa"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+          SQLTask:SqlStatementSource="Truncate Table project3.processeddatausa" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Exchange rate for other table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1e9c8823-1b53-42bf-ac4b-0e8f24bd954c}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Exchange rate for other table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+          SQLTask:SqlStatementSource="UPDATE processeddata AS t2&#xA;JOIN exchangerates AS t1 ON t2.currency = t1.CurrencyFrom AND t2.SaleDate = t1.RateDate&#xA;SET t2.ExchangeRate = t1.ExchangeRate;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Exchange rate for USA Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A06512DD-038E-4598-A64E-89FC514D827C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Exchange rate for USA Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3099437E-EC7F-496F-AF12-8A37EEE28771}"
+          SQLTask:SqlStatementSource="update processeddatausa&#xA;set exchangerate = 1 ;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{01156208-8410-4ADD-B2AC-58B8D4931CAA}"
+      DTS:From="Package\Truncate Table ProcessedData"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\CustomerTable" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{CC38D999-18C9-4209-8613-F0C790C86069}"
+      DTS:From="Package\Truncate Table ProcessedData"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\ProductSales" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{3543ECA0-7E6C-4D86-8DCA-6914F6D2D987}"
+      DTS:From="Package\Truncate Table ProcessedData"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\ExchangeRates" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{09013D7D-36E3-4CA9-A366-AC3E93D9B822}"
+      DTS:From="Package\Truncate Table ProcessedDatausa"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Truncate Table ProcessedData" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{EA472206-8A33-4C7D-97D4-C4D332C82066}"
+      DTS:From="Package\CustomerTable"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Sequence Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{5C160E48-FBFB-42F7-A557-9E1791FDE70C}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Update Exchange rate for USA Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{D44E26DD-D810-4D0A-8C51-217577C5A3F8}"
+      DTS:From="Package\Update Exchange rate for USA Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Update Exchange rate for other table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{99C664FF-C0A3-48EC-A784-58ED57ACED0A}"
+      DTS:From="Package\Update Exchange rate for other table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Sequence Container 1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{ACDC465F-17E8-4A0C-AAAE-682F932990DB}"
+      DTS:EventID="1701869940"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{6E1A12F2-B9B5-4502-A0EB-72C0C9F62634}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables />
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\CustomerTable"
+          TopLeft="348.5,209.5" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\ExchangeRates"
+          TopLeft="758.5,209.5" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\ProductSales"
+          TopLeft="559,209.5" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Truncate Table ProcessedData"
+          TopLeft="517.5,107.5" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Truncate Table ProcessedDatausa"
+          TopLeft="509,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="575,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-151.5,60"
+              Start="0,0"
+              End="-151.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4747774480712" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4747774480712"
+                    Point2="0,20.4747774480712"
+                    Point3="-4,20.4747774480712" />
+                  <mssgle:LineSegment
+                    End="-147.5,20.4747774480712" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-147.5,20.4747774480712"
+                    Point2="-151.5,20.4747774480712"
+                    Point3="-151.5,24.4747774480712" />
+                  <mssgle:LineSegment
+                    End="-151.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="628.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="682,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="151.5,60"
+              Start="0,0"
+              End="151.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.4747774480712" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.4747774480712"
+                    Point2="0,20.4747774480712"
+                    Point3="4,20.4747774480712" />
+                  <mssgle:LineSegment
+                    End="147.5,20.4747774480712" />
+                  <mssgle:CubicBezierSegment
+                    Point1="147.5,20.4747774480712"
+                    Point2="151.5,20.4747774480712"
+                    Point3="151.5,24.4747774480712" />
+                  <mssgle:LineSegment
+                    End="151.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="628.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="334,42"
+          Id="Package\Sequence Container\Update ProductSales Data in destination table for USA"
+          TopLeft="31.0000000000001,5.49999999999989" />
+        <NodeLayout
+          Size="385,42"
+          Id="Package\Sequence Container\Update ProductSales Data in destination table for other countries"
+          TopLeft="5.50000000000006,107.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="198,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="327,42"
+          Id="Package\Sequence Container\Update Currency column in destination table for USA"
+          TopLeft="477.5,5.49999999999989" />
+        <NodeLayout
+          Size="379,42"
+          Id="Package\Sequence Container\Update Currency column in destination table for other countries"
+          TopLeft="451.5,107.5" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="641,47.4999999999999">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="836,204"
+          Size="836,247"
+          Id="Package\Sequence Container"
+          TopLeft="5.50000000000006,311.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="423.5,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="251,42"
+          Id="Package\Update Exchange rate for USA Table"
+          TopLeft="358.833333333333,625.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="423.5,558.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="60.8333333333333,67.0000000000001"
+              Start="0,0"
+              End="60.8333333333333,59.5000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5000000000001"
+                    Point2="0,33.5000000000001"
+                    Point3="4,33.5000000000001" />
+                  <mssgle:LineSegment
+                    End="56.8333333333333,33.5000000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="56.8333333333333,33.5000000000001"
+                    Point2="60.8333333333333,33.5000000000001"
+                    Point3="60.8333333333333,37.5000000000001" />
+                  <mssgle:LineSegment
+                    End="60.8333333333333,59.5000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Update Exchange rate for other table"
+          TopLeft="362.222222222222,716.666666666667" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="486.777777777778,667.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.1666666666665"
+              Start="0,0"
+              End="0,41.6666666666665">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.6666666666665" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Sequence Container 1\Update Sales Amount for USA Table"
+          TopLeft="80.3888888888889,53.4362516445402" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Sequence Container 1\Update Sales Amount for other Table"
+          TopLeft="458.222222222222,55.5555555555557" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="875,160"
+          Size="875,203"
+          Id="Package\Sequence Container 1"
+          TopLeft="54.3888888888889,826.611111111111" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="490.555555555556,758.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,67.9444444444446"
+              Start="0,0"
+              End="0,60.4444444444446">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.4444444444446" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\CustomerTable">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="147,42"
+          Id="Package\CustomerTable\processeddata"
+          TopLeft="395.5,301.247395833333" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\CustomerTable\Create Column FullName"
+          TopLeft="287.5,139.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\CustomerTable\processeddatausa"
+          TopLeft="195.5,301.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\CustomerTable\Conditional Split"
+          TopLeft="304.5,223.5" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\CustomerTable\ODBC Source"
+          TopLeft="316.5,65.5" />
+        <EdgeLayout
+          Id="Package\CustomerTable.Paths[USA]"
+          TopLeft="357.5,265.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-80.5,36"
+              Start="0,0"
+              End="-80.5,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.6206896551724" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.6206896551724"
+                    Point2="0,14.6206896551724"
+                    Point3="-4,14.6206896551724" />
+                  <mssgle:LineSegment
+                    End="-76.5,14.6206896551724" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-76.5,14.6206896551724"
+                    Point2="-80.5,14.6206896551724"
+                    Point3="-80.5,18.6206896551724" />
+                  <mssgle:LineSegment
+                    End="-80.5,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-50.01275390625,19.6206896551724,19.5255078125,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\CustomerTable.Paths[Rest]"
+          TopLeft="406.5,265.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62.5,35.7473958333334"
+              Start="0,0"
+              End="62.5,28.2473958333334">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.5180994572159" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.5180994572159"
+                    Point2="0,14.5180994572159"
+                    Point3="4,14.5180994572159" />
+                  <mssgle:LineSegment
+                    End="58.5,14.5180994572159" />
+                  <mssgle:CubicBezierSegment
+                    Point1="58.5,14.5180994572159"
+                    Point2="62.5,14.5180994572159"
+                    Point3="62.5,18.5180994572159" />
+                  <mssgle:LineSegment
+                    End="62.5,28.2473958333334" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="20.98861328125,19.5180994572159,20.5227734375,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\CustomerTable.Paths[ODBC Source Output]"
+          TopLeft="386.25,107.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\CustomerTable.Paths[Derived Column Output]"
+          TopLeft="383.5,181.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\CustomerTable\processeddatausa">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\CustomerTable\processeddata">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\CustomerTable\ODBC Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\ExchangeRates">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="142,42"
+          Id="Package\ExchangeRates\ODBC Source"
+          TopLeft="306.5,59.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ExchangeRates\ODBC Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\ProductSales">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="165,42"
+          Id="Package\ProductSales\ProductSales Data"
+          TopLeft="391.5,110.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\ProductSales\ODBC Destination"
+          TopLeft="401.5,198.5" />
+        <EdgeLayout
+          Id="Package\ProductSales.Paths[ODBC Source Output]"
+          TopLeft="474,152.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9,46"
+              Start="0,0"
+              End="9,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="5,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5,23"
+                    Point2="9,23"
+                    Point3="9,27" />
+                  <mssgle:LineSegment
+                    End="9,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ProductSales\ProductSales Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ProductSales\ODBC Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
